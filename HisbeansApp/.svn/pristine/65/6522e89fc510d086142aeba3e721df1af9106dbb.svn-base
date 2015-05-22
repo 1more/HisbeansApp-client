@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="wrongFormat_id">ID는 알파벳과 숫자로만 이루어져야 하며\n첫 글자는 알파벳이어야 합니다.</string>
+    <string name="wrongFormat_pw">비밀번호에 \', ;, - 의 특수문자가 올 수 없습니다.</string>
+    <string name="wrongIdPw">ID 혹은 비밀번호가 잘못되었거나 바뀌었습니다. 확인해주세요.</string>
+    <string name="versionUpdate">버전 업데이트가 필요합니다. 마켓으로 이동하시겠습니까?</string>
+    <string name="noEmpty">빈칸을 입력해주세요</string>
+    <string name="noMatchInfo">일치하는 정보가 존재하지 않습니다. 정보를 다시 확인해주세요.</string>
+    <string name="wrongFormat_name">이름에는 특수문자가 올 수 없습니다.</string>
+    <string name="wrongFormat_EorP">이메일 혹은 휴대폰 번호 형식에 어긋납니다. 확인해주세요.</string>
+    <string name="wrongFormat_email">이메일 형식에 어긋납니다. 확인해주세요.</string>
+    <string name="wrongFormat_phone">휴대폰 번호 형식에 어긋납니다. 확인해주세요.</string>
+    <string name="wrongFormat_password">비밀번호가 같지 않습니다. 확인해주세요.</string>
+    <string name="reValidate">인증번호를 재발급했습니다. 3분 이내에 정확히 입력해주세요.</string>
+    <string name="noMatch_valiNum">인증번호가 일치하지 않습니다.</string>
+    <string name="overInputTime">입력시간이 초과되었습니다. 인증번호를 재발급해주세요.</string>
+    <string name="waitThreeMin">인증번호 재발급은 3분 이후에 가능합니다. 잠시 후 다시 시도해주세요.</string>
+    <string name="validate">인증번호가 발급되었습니다. 3분 이내에 정확히 입력해주세요.</string>
+    <string name="noConnInternet">네트워크 연결이 원활하지 않습니다. 와이파이나 3G를 확인해주세요.</string>
+    <string name="modiPwDone">비밀번호를 성공적으로 변경하였습니다.</string>
+    <string name="errModiPw">비밀번호를 변경하는데 실패했습니다. 네트워크를 확인해주세요.</string>
+    <string name="noMatch_pw">비밀번호가 일치하지 않습니다.</string>
+    <string name="notifyExit">Hisbeans 앱을 종료합니다\n종료하시겠습니까?</string>
+    <string name="dup_id">중복된 ID가 존재합니다.\n다른 ID를 입력해주세요.</string>
+    <string name="non_dup_id">사용 가능한 ID입니다.</string>
+    <string name="dup_phoneemail">전화번호나 E-MAIL이 이미 사용중입니다.\n다른 연락처를 입력해주세요.</string>
+    <string name="check_dup_id">ID 중복 체크를 해주세요.</string>
+    <string name="register_err">회원가입에 실패했습니다.\n관리자에게 문의해 주세요</string>
+    <string name="invalid_id">ID는 한글자 이상이어야 합니다..</string>
+    
+    
+</resources>

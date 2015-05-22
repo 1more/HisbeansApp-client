@@ -1,0 +1,337 @@
+package ghost.android.hbapp.giftcard;
+
+import ghost.android.hbapp.LoginAct;
+import ghost.android.hbapp.R;
+import ghost.android.hbapp.common.GlobalMethods;
+import ghost.android.hbapp.common.GlobalVariables;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+/**
+ * @author HyeonWook Kim
+ * @email khw0867@gmail.com
+ * @classname GiftCardActivity.java
+ * @package ghost.android.hbapp.giftcard
+ * @date 2012. 7. 30.
+ * @purpose : 선물카드 상세 화면
+ *
+ */
+
+public class GiftCardAct extends Activity {
+	private String index;
+
+	//	private ImageView img;
+	private ImageView barcode;
+
+	private TextView menu;
+	private TextView to;
+	private TextView content;
+	private TextView date;
+
+	private Bitmap giftCard;
+	private Bitmap giftCardBarcde;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.giftcard);
+
+
+
+		/********* get intent and information from previous activity *********/
+
+		Bundle bundle = this.getIntent().getExtras();
+		int tmp= bundle.getInt("giftcardIndex");
+		index = Integer.toString(tmp);
+
+
+
+		/********* find view and setting *********/
+
+		//		img = (ImageView) findViewById(R.id.giftcardImage);
+		barcode = (ImageView) findViewById(R.id.giftcardBarcodeImage);
+		menu = (TextView) findViewById(R.id.giftcardMenuText);
+		to = (TextView) findViewById(R.id.giftcardToText);
+		content = (TextView) findViewById(R.id.giftcardContentText);
+		date = (TextView) findViewById(R.id.giftcardDateText);
+
+
+
+		/********* button setting *********/
+
+		Button saveButton = (Button) findViewById(R.id.giftcardSaveButton);
+		saveButton.setOnClickListener(new Button.OnClickListener() {
+			public void onClick(View v) {
+				// 현재 device가 인터넷이 되고 있는지 검사 한 후에, 인터넷이 되지 않을 경우, error dialog 표시
+				ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+				AlertDialog.Builder netConDlgBuilder = GlobalMethods.checkInternet(cm,
+						GiftCardAct.this);
+
+				//인터넷환경이 원활 할 경우 정보 받아 setting
+				if (netConDlgBuilder == null){
+					new SaveGiftCardProgress().execute();
+				}
+				else{
+					// SD카드 Path 얻기
+					String sdPath = ""+Environment.getExternalStorageDirectory();
+					File file = new File(sdPath + "/hisbeans/" + index + "giftcard.bmp");
+
+					// 파일이 존재하면 저장 안함
+					if(file.exists()){
+						Toast.makeText(GiftCardAct.this, index + "번 선물카드는\nSD카드 hisbeans 폴더에 이미 있습니다.", 
+								Toast.LENGTH_SHORT).show();
+					}
+					// 파일이 존재 안하면 경고 dialog
+					else{
+						netConDlgBuilder.show();
+					}
+				}
+			}
+		});
+
+		Button shareButton = (Button) findViewById(R.id.giftcardShareButton);
+		shareButton.setOnClickListener(new Button.OnClickListener() {
+			public void onClick(View v) {
+				// 추후 회의 후 구현 - 무엇을 어떻게 share? 방식?
+			}
+		});
+		shareButton.setVisibility(View.GONE);	// 회의 전 까지 unvisibility 
+
+		Button deleteButton = (Button) findViewById(R.id.giftcardDeleteButton);
+		deleteButton.setOnClickListener(new Button.OnClickListener() {
+			public void onClick(View v) {
+				// 추후 회의 후 구현 - 선물카드 삭제 시 보낸이, 받는이 양방향 삭제?
+			}
+		});
+		deleteButton.setVisibility(View.GONE);	// 회의 전 까지 unvisibility
+
+		// 현재 device가 인터넷이 되고 있는지 검사 한 후에, 인터넷이 되지 않을 경우, error dialog 표시
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		AlertDialog.Builder netConDlgBuilder = GlobalMethods.checkInternet(cm,
+				GiftCardAct.this);
+
+		//인터넷환경이 원활 할 경우 정보 받아 setting
+		if (netConDlgBuilder == null){
+			Map<String, String> param = new HashMap<String, String>();
+			param.put("index", index);
+
+			new GiftCardProgress().execute(param);
+		}
+		else{
+			netConDlgBuilder.show().setOnDismissListener(new OnDismissListener(){
+				public void onDismiss(DialogInterface dialog) {
+					finish();
+				}
+			});
+		}
+	}
+
+
+	/********** DB에서 선물카드 읽어오는 Thread ***********/
+
+	private class GiftCardProgress extends AsyncTask<Map<String,String>, Void, GiftCardModel> {
+		private ProgressDialog loadingDlg;
+
+		@Override
+		protected void onPreExecute() {
+			// dialog 띄우기
+			super.onPreExecute();
+
+			loadingDlg = ProgressDialog.show(GiftCardAct.this, "알림",
+					"잠시만 기다려 주세요...", true);
+		}
+
+		@Override
+		protected GiftCardModel doInBackground(Map<String,String>... index) {
+			RestTemplate restTemplate = new RestTemplate();
+			restTemplate.getMessageConverters().add(new MappingJacksonHttpMessageConverter());
+
+			GiftCardModel response = restTemplate.getForObject(GlobalVariables.getGiftCardWithIndexURL , GiftCardModel.class, index[0]);
+
+			return response;
+		}
+
+		@Override
+		protected void onPostExecute(GiftCardModel rst) {
+			// dialog 사라지게 하기
+			loadingDlg.dismiss();
+
+			// 정보를 성공적으로 불러오면
+			if(rst != null){
+				menu.setText(rst.get(0).getMenu());
+				//img.setImageBitmap(rst.getImage());
+//				if(rst.get(0).getBarcode() != null){
+				if(true){ 
+//					barcode.setImageBitmap(rst.get(0).getBarcode());
+				}
+				else{
+					// do nothing
+				}
+				to.setText("현욱이에게");
+//				content.setText(rst.get(0).getContent());
+//				date.setText(rst.get(0).getDate().toString());
+			}
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+
+			// dialog 사라지게 하기
+			loadingDlg.dismiss();
+		}
+	}
+
+
+	/********** DB에서 선물카드 읽어오는 Thread ***********/
+
+	private class SaveGiftCardProgress extends AsyncTask<Void, Void, String> {
+		private ProgressDialog loadingDlg;
+
+		@Override
+		protected void onPreExecute() {
+			// dialog 띄우기
+			super.onPreExecute();
+
+			loadingDlg = ProgressDialog.show(GiftCardAct.this, "알림",
+					"잠시만 기다려 주세요...", true);
+		}
+
+		@Override
+		protected String doInBackground(Void... params) {
+			// get giftcard img and save at sd card
+			try {
+				// SD카드 Path 얻기
+				String sdPath = ""+Environment.getExternalStorageDirectory();
+				File file = new File(sdPath + "/hisbeans/" + index + "giftcard.bmp");
+				BufferedInputStream bis = null;
+
+				// 파일이 존재하면 저장 안함
+				if(file.exists()){
+					return index + "번 선물카드는\nSD카드 hisbeans 폴더에 이미 있습니다.";
+				}
+				// 파일이 존재 안하면 서버에서 받아오기
+				else{
+					URL url = new URL(GlobalVariables.SERVER_ADDR + "resources/giftcards/" + 
+							index + "giftcard.png");
+					URLConnection con= url.openConnection();
+					con.connect();
+
+					bis = new BufferedInputStream(con.getInputStream(), 1024 * 2048);
+					giftCard = BitmapFactory.decodeStream(bis);
+
+					GlobalMethods.saveImgAtSdcard(index + "giftcard", giftCard);
+
+					bis.close();
+
+					return index + "번 선물카드를\nSD카드 hisbeans 폴더에 저장하였습니다.";
+				}
+			} catch (FileNotFoundException e) {
+				Log.e("FileNotFoundException error", e.toString());
+			} catch (MalformedURLException e) {
+				Log.e("MalformedURLException error", e.toString());
+			} catch (IOException e) {
+				Log.e("IOException error", e.toString());
+			}
+
+			return "네트워크가 불안하여 선물카드를 받아올 수 없습니다.";
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+
+			// dialog 사라지게 하기
+			loadingDlg.dismiss();
+			Toast.makeText(GiftCardAct.this, result, 
+					Toast.LENGTH_SHORT).show();
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+
+			// dialog 사라지게 하기
+			loadingDlg.dismiss();
+		}
+
+	}
+
+
+
+	/*** Create Option Menu ***/
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, Menu.FIRST, Menu.NONE , "로그아웃");
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()){
+		// 로그아웃
+		case Menu.FIRST :
+			SharedPreferences spf = getSharedPreferences(GlobalVariables.SPF_NAME_LOGIN, 0);
+			SharedPreferences.Editor spfEditor = spf.edit();
+
+			// 정보 지우기
+			spfEditor.putString(GlobalVariables.SPF_LOGIN_ID, null);
+			spfEditor.putString(GlobalVariables.SPF_LOGIN_NAME, null);
+			spfEditor.putString(GlobalVariables.SPF_LOGIN_NICK_NAME, null);
+			spfEditor.putString(GlobalVariables.SPF_LOGIN_EMAIL, null);
+			spfEditor.putString(GlobalVariables.SPF_LOGIN_PHONE, null);
+			spfEditor.putString(GlobalVariables.SPF_LOGIN_BARCODE, null);
+			spfEditor.putString(GlobalVariables.SPF_LOGIN_BARCODE_URL, null);
+			spfEditor.commit();
+
+			// Launch Stamp_main Screen
+			Intent intent = new Intent(GiftCardAct.this, LoginAct.class);
+
+			// Close all views before launching Stamp_main
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+
+			// Close Login Screen
+			finish();
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+}

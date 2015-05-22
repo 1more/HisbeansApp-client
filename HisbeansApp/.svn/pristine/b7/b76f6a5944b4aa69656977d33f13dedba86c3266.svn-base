@@ -1,0 +1,64 @@
+package ghost.android.hbapp.giftcard;
+
+import ghost.android.hbapp.R;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+/**
+ * @author HyeonWook Kim
+ * @email khw0867@gmail.com
+ * @classname SendGiftBoxListAdapter.java
+ * @package ghost.android.hbapp.giftcard
+ * @date 2012. 7. 26.
+ * @purpose : 보낸 선물함의 ListView를 customize하는데 이용된 Adapter
+ *
+ */
+
+public class GiftCardBoxListAdapter extends BaseAdapter {
+	private LayoutInflater inflater;
+	
+	private int layoutId;
+	private GiftCardModel giftCardArr;
+	
+
+	public GiftCardBoxListAdapter(Context context, int layoutId, GiftCardModel giftCardArr) {
+		super();
+		this.layoutId = layoutId;
+		this.giftCardArr = giftCardArr;
+		this.inflater =(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
+
+	public int getCount() {
+		return giftCardArr.getSize();
+	}
+
+	public Object getItem(int position) {
+		return giftCardArr.get(position).getMenu();
+	}
+
+	public long getItemId(int position) {
+		return position;
+	}
+
+	public View getView(int position, View convertView, ViewGroup parent) {
+		if(convertView == null){
+			convertView = inflater.inflate(layoutId, parent, false);
+		}
+		
+		ImageView img = (ImageView)convertView.findViewById(R.id.giftcardListItemImage);
+//		img.setImageBitmap(giftCardArr.get(position).getImage());
+		
+		TextView content = (TextView)convertView.findViewById(R.id.giftcardListItemContentText);
+//		content.setText(giftCardArr.get(position).getContent());
+		
+		TextView date = (TextView)convertView.findViewById(R.id.giftcardListItemDateText);
+//		date.setText(giftCardArr.get(position).getDate().toString());
+		
+		return convertView;
+	}
+}

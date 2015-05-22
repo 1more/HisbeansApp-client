@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="#b4b4b4"
+    android:orientation="vertical" >
+
+
+
+
+    <TextView
+        android:id="@+id/giftcard_expan_child_row_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16.7dp"
+        android:layout_marginLeft="16.7dp"
+        android:layout_marginRight="16.7dp"
+        android:layout_marginTop="16.7dp"
+        android:gravity="center_vertical"
+        android:textColor="#535353" />
+
+    <ImageView
+        android:id="@+id/giftcardImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/null_giftcard" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.7dp"
+        android:background="#f3f3f3" >
+
+    </View>
+
+</LinearLayout>

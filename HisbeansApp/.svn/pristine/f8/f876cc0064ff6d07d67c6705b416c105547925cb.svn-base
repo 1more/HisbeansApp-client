@@ -1,0 +1,123 @@
+package ghost.android.hbapp.common;
+
+/**
+ * @author SeungMin
+ * @email rfrost77@gmail.com
+ * @classname GlobalVariables.java
+ * @package ghost.android.hbapp.common
+ * @date 2012. 10. 23. 오전 10:24:42
+ * @purpose : Global하게 사용되는 Variables 모음 Class
+ * @comment :
+ */
+
+public class GlobalVariables {
+	// Server Address
+	public static final String SERVER_ADDR = "https://www.hisbeans.co.kr:8080/HisbeansServer/";
+	
+	
+	
+	/************************ Shared Preference Variables Key ************************/
+	
+	public static final String SPF_NAME_LOGIN = "LOGIN";
+	public static final String SPF_LOGIN_ID = "ID";
+	public static final String SPF_LOGIN_NAME = "NAME";
+	public static final String SPF_LOGIN_NICK_NAME = "NICK_NAME";
+	public static final String SPF_LOGIN_EMAIL = "EMAIL";
+	public static final String SPF_LOGIN_PHONE = "PHONE";
+	public static final String SPF_LOGIN_BARCODE = "BARCODE";
+	public static final String SPF_LOGIN_BARCODE_URL = "BARCODEURL";
+	
+	
+	/************************ Intent Key Variables ************************/
+	public static final String INTENT_REGISTER_ID = "id";
+	public static final String INTENT_REGISTER_NAME = "name";
+	public static final String INTENT_REGISTER_PW = "pw";
+	public static final String INTENT_REGISTER_PHONE = "phone";
+	public static final String INTENT_REGISTER_EMAIL = "email";
+	
+	
+	/************************ JSON Response node names ************************/
+	
+	public static final String KEY_LOGIN = "login";
+	public static final String KEY_ERROR = "error";
+	public static final String KEY_ERROR_MSG = "error_msg";
+	public static final String KEY_UID = "uid";
+	public static final String KEY_NAME = "name";
+	public static final String KEY_EMAIL = "email";
+	public static final String KEY_CREATED_AT = "created_at";
+	public static final String KEY_STAMP = "cards";
+	public static final String KEY_BY_NAME_EMAIL = "findIdByNameEmail";
+	public static final String KEY_BY_NAME_PHONE = "findIdByNamePhoneNum";
+	public static final String KEY_BY_ID_NAME_EMAIL = "findPasswordByIdNameEmail";
+	public static final String KEY_BY_ID_NAME_PHONE = "findPasswordByIdNamePhoneNum";
+	public static final String KEY_MODIFY_USER = "modifyUser";
+	public static final String KEY_MODIFY_PASSWORD = "modifyPassword";
+	public static final String KEY_MODIFY_PASSWORD_WITH_NONE_VALID = "modifyPasswordWithNoneValid";
+	public static final String KEY_VALIDATE_MAIL = "validateForMail";
+	public static final String KEY_VALIDATE_PHONE = "validateForPhone";
+	public static final String KEY_VALIDATE = "validate";
+	public static final String KEY_NOTICES = "getNotices";
+	public static final String KEY_GIFTCARD_SENDER = "presentCards";
+	public static final String KEY_GIFTCARD_RECEIVER = "presentCards";
+	public static final String KEY_GIFTCARD_INDEX = "presentCard";
+	public static final String KEY_SIGNUP = "signUp";
+	public static final String KEY_SIGNOUT = "signOut";
+	public static final String KEY_GETVERSION = "getVersion";
+	public static final String KEY_ID_DUPCHECK = "isUsable";
+	public static final String KEY_PHONE_EMAIL_DUPCHECK = "isUsable";
+	
+	
+	/************************ URLs ************************/
+	
+	public static final String loginURL = SERVER_ADDR + "login.html";
+	public static final String registerURL = SERVER_ADDR + "signUp.html";
+	public static final String signOutURL = SERVER_ADDR + "signOut.html?id={id}";
+	public static final String getGiftCardsAsSenderURL = SERVER_ADDR + "getPresentCardsAsSender.html?id={id}";
+	public static final String getGiftCardsAsReceiverURL = SERVER_ADDR + "getPresentCardsAsReceiver.html?phoneNum={phoneNum}";
+	public static final String getGiftCardWithIndexURL = SERVER_ADDR + "getPresentCardWithIndex.html?index={index}";
+	public static final String lookforIdByEURL = SERVER_ADDR + "findIdByNameEmail.html?name={name}&info={info}";
+	public static final String lookforIdByPURL = SERVER_ADDR + "findIdByNamePhoneNum.html?name={name}&info={info}";
+	public static final String lookforPasswordByEURL = SERVER_ADDR + "findPasswordByIdNameEmail.html?id={id}&name={name}&info={info}";
+	public static final String lookforPasswordByPURL = SERVER_ADDR + "findPasswordByIdNamePhoneNum.html?id={id}&name={name}&info={info}";
+	public static final String modifyUserURL = SERVER_ADDR + "modifyUser.html?id={id}&email={email}&phoneNum={phoneNum}";
+	public static final String modifyPasswordURL = SERVER_ADDR + "modifyPassword.html";
+	public static final String modifyPasswordWithNoneValidURL = SERVER_ADDR + "modifyPasswordWithNoneValid.html";
+	public static final String validateforMailURL = SERVER_ADDR + "validateForMail.html?id={id}&email={email}";
+	public static final String validateforPhoneURL = SERVER_ADDR + "validateForPhone.html?id={id}&phoneNum={phoneNum}";
+	public static final String validateURL = SERVER_ADDR + "validate.html";
+	public static final String getStampsURL = SERVER_ADDR + "allStamps.html?barcodeNum={barcodeNum}";
+	public static final String getBarcodeURL = SERVER_ADDR + "getBarcode.html?";
+	public static final String getNoticesURL = SERVER_ADDR + "getNotices.html";
+	public static final String getSettingNoticesURL = SERVER_ADDR + "notices.html";
+	public static final String getUserBarcodeURL = SERVER_ADDR + "getUserBarcode.html";
+	public static final String getGiftcardImageURL = SERVER_ADDR + "getGiftcardImage.html";
+	public static final String getVersionURL = SERVER_ADDR + "getVersion.html";
+	public static final String getUserByIdURL = SERVER_ADDR + "getUserById.html?id={id}";
+	public static final String checkDupIdURL = SERVER_ADDR + "checkDupId.html?id={id}";
+	public static final String checkDupPhoneEmailURL = SERVER_ADDR + "checkDupPhoneEmail.html?phone={phone}&email={email}";
+	public static final String getAllMenuURL = SERVER_ADDR + "getAllMenu.html";
+	
+	
+	
+	/************************ Department Map Values ************************/
+	
+	public static final String shopLocation1 = "포항시 북구 흥해읍 한동대학교 도서관 3층";
+	public static final String shopLocation2 = "포항시 북구 덕산동 113-12 포항시립중앙아트홀 2층";
+	public static final String shopLocation3 = "포항시 남구 대잠동 1001 포항시청 본관 로비(지하 1층)";
+	public static final String shopLocation4 = "포항시 북구 동빈1가 981-7번지 동빈나루 2층";
+	public static final String shopLocation5 = "포항시 남구 대도동 303-1 문화예술회관 1층";
+	
+	public static final String coordinate1[] = {"36.1024958576432","129.38693046569824"};
+	public static final String coordinate2[] = {"36.04081349193194","129.36699360609055"};
+	public static final String coordinate3[] = {"36.018997797748206","129.34356451034546"};
+	public static final String coordinate4[] = {"36.043019160226194","129.37077283859253"};
+	public static final String coordinate5[] = {"36.01006553212929","129.36612725257874"};
+	
+	
+	/************************ Other ************************/
+	
+	public static final int VISIBLE = 0x00000000;
+	public static final int INVISIBLE = 0x00000004;
+	public static final int GONE = 0x00000008;
+	public static int bottomTabWidth = 0;
+}

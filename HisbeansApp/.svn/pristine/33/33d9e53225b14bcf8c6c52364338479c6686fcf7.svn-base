@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#f3f3f3"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="fill"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+    <include layout="@layout/lookforid_title" 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/id_doneFindProcess"
+            android:layout_width="240dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/find_id_process_b" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="186.7dp"
+            android:layout_height="13.3dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="13.3dp"
+            android:src="@drawable/find_txt_id_done" />
+
+        <TextView
+            android:id="@+id/id_doneIdTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#535353"
+            android:textSize="15dp"
+            android:typeface="sans" />
+
+        <Button
+            android:id="@+id/id_doneOkB"
+            android:layout_width="240dp"
+            android:layout_height="28.7dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="6.7dp"
+            android:layout_marginTop="22.4dp"
+            android:background="@drawable/btn_ok_on" />
+
+        <Button
+            android:id="@+id/id_doneLookforPWB"
+            android:layout_width="240dp"
+            android:layout_height="28.7dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_find_pw_on" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="253.3dp"
+            android:layout_height="46.7dp"
+            android:layout_marginTop="9.3dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/find_txt" />
+    </LinearLayout>
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        layout="@layout/common_bottom" />
+
+</LinearLayout>

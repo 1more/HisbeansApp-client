@@ -1,0 +1,208 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ghost.android.hbapp"
+    android:versionCode="3"
+    android:versionName="1.2" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="15" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+    <application
+        android:icon="@drawable/icon"
+        android:label="@string/app_name" >
+        <uses-library
+            android:name="com.google.android.maps"
+            android:required="true" />
+
+        <activity
+            android:name=".LoginAct"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".CommonTabViewAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".lookforid.LookforIdMainAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".lookforid.LookforIdByEmailAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".lookforid.LookforIdByEmail2Act"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".lookforid.LookforIdByPhoneAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".lookforid.LookforIdByPhone2Act"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".lookforid.LookforIdDoneAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".lookforpw.LookforPwMainAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".lookforpw.LookforPwByEmailAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".lookforpw.LookforPwByEmail2Act"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".lookforpw.LookforPwByPhoneAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".lookforpw.LookforPwByPhone2Act"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".lookforpw.LookforPwDoneAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".register.RegisterTermsMainAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".register.Register1Act"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".register.Register2Act"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".register.RegisterDoneAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".stamp.StampCouponAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".stamp.StampBarcodeMainAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".giftcard.GiftCardMainAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".giftcard.GiftCardSendAct"
+            android:screenOrientation="portrait" android:windowSoftInputMode="stateAlwaysHidden">
+        </activity>
+        <activity
+            android:name=".giftcard.GiftCardSendVerifyAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".giftcard.GiftCardPayProcessAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".giftcard.GiftBoxAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".giftcard.GiftCardSendboxAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".giftcard.GiftCardGetboxAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".giftcard.GiftCardAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".setting.SettingMainAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".setting.SettingHisbeansAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".setting.SettingSignOutAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".setting.SettingNoticeAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".setting.SettingDeveloperAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".setting.SettingQNAAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".setting.SettingVersionAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".setting.SettingAccountInfoAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".setting.SettingAccountInfoChangeAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".setting.SettingAccountInfoPasswordAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".department.DepartmentMainAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".department.DepartmentShopAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".department.DepartmentHisbeansAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".department.DepartmentMenuAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".department.DepartmentShopMapAct"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".MainAct"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

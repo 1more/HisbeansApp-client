@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="height_short">35dp</string>
+    <string name="width_small">83dp</string>
+    <string name="width_middle">150dp</string>
+    <string name="width_long">200dp</string>
+    <string name="text_size_small">11dp</string>
+    <string name="text_size_normall">13dp</string>
+    <string name="text_size_large">15dp</string>
+    <string name="height_middle">40dp</string>    
+</resources>

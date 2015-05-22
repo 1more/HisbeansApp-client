@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:layout_weight="1"
+    android:background="#f3f3f3" >
+
+    <Button
+        android:id="@+id/tab_stamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/menu_a_off" />
+
+    <Button
+        android:id="@+id/tab_gift"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/menu_b_off" />
+
+    <Button
+        android:id="@+id/tab_department"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/menu_c_off" />
+
+    <Button
+        android:id="@+id/tab_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/menu_d_off" />
+
+</LinearLayout>

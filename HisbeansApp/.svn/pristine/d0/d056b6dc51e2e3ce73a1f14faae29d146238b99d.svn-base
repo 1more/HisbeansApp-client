@@ -1,0 +1,298 @@
+package ghost.android.hbapp.giftcard;
+
+import ghost.android.hbapp.R;
+import ghost.android.hbapp.common.GlobalMethods;
+import ghost.android.hbapp.common.GlobalVariables;
+import ghost.android.hbapp.stamp.StampBarcodeMainAct;
+
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.os.AsyncTask;
+import android.os.Environment;
+import android.text.Html;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+/**
+ * @author HyeonWook Kim
+ * @email khw0867@gmail.com
+ * @classname SendGiftBoxListAdapter.java
+ * @package ghost.android.hbapp.giftcard
+ * @date 2012. 7. 26.
+ * @purpose : 받은 선물함의 ListView를 customize하는데 이용된 Adapter
+ * 
+ */
+
+public class GiftCardGetListAdapter extends BaseExpandableListAdapter {
+	private LayoutInflater inflater;
+	private GiftCardModel giftcard;
+	private Context context;
+	private Bitmap giftcardImage;
+	
+	private ImageView  giftcardIv;
+
+	public GiftCardGetListAdapter(Context c, GiftCardModel giftcard) {
+		super();
+		this.inflater = LayoutInflater.from(c);
+		this.giftcard = giftcard;
+		this.context = c;
+	}
+
+	@Override
+	public Object getChild(int groupPosition, int childPosition) {
+		return giftcard.get(groupPosition).getMenu();
+	}
+
+	@Override
+	public long getChildId(int groupPosition, int childPosition) {
+		return groupPosition;
+	}
+
+	@Override
+	public View getChildView(int groupPosition, int childPosition,
+			boolean isLastChild, View convertView, ViewGroup parent) {
+		View v = convertView;
+		if (v == null) {
+			v = inflater.inflate(R.layout.giftcard_expand_child_row, parent,
+					false);
+		}
+
+		// Notice Content Set
+		TextView content = (TextView) v
+				.findViewById(R.id.giftcard_expan_child_row_content);
+		content.setText(Html.fromHtml(giftcard.get(groupPosition)
+				.getUser_name()
+				+ "님이 "
+				+ giftcard.get(groupPosition).getSendDate().toString()
+				+ "에 선물하신 " + giftcard.get(groupPosition).getMenu() + "입니다."));
+
+		String barcodeNum = giftcard.get(groupPosition).getBarcodeNum();
+		giftcardIv = (ImageView)v.findViewById(R.id.giftcardImageView);
+		
+		// 현재 device가 인터넷이 되고 있는지 검사 한 후에, 인터넷이 되지 않을 경우, error dialog 표시
+		ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		AlertDialog.Builder netConDlgBuilder = GlobalMethods.checkInternet(cm,context);
+
+		// 인터넷환경이 원활 할 경우 정보 받아 setting
+		if (netConDlgBuilder == null) {
+			new ManageStamps().execute(barcodeNum);
+		}
+		// 인터넷환경이 원활하지 않을 경우 setting with local information
+		else {
+			try {
+				// SD카드 Path 얻기
+				String sdPath = "" + Environment.getExternalStorageDirectory();
+				File file = new File(sdPath + "/hisbeans/" + barcodeNum
+						+ ".bmp");
+				BufferedInputStream bis = null;
+
+				// 파일이 존재하면 사용하기
+				if (file.exists()) {
+					// 파일 스트림 열기
+					InputStream fis = new FileInputStream(file);
+					bis = new BufferedInputStream(fis, 512 * 1024);
+					giftcardImage = BitmapFactory.decodeStream(bis);
+
+					fis.close();
+					bis.close();
+				}
+				// 파일 없으면 Barcode Image는 빈칸(null)으로 setting
+				else {
+					giftcardImage = null;
+				}
+			} catch (FileNotFoundException e) {
+				Log.e("FileNotFoundException error", e.toString());
+			} catch (IOException e) {
+				Log.e("IOException error", e.toString());
+			}
+
+			// barcode setting
+			giftcardIv.setImageBitmap(giftcardImage);
+		}
+		return v;
+	}
+
+	@Override
+	public int getChildrenCount(int groupPosition) {
+		return 1;
+	}
+
+	@Override
+	public Object getGroup(int groupPosition) {
+		return giftcard.get(groupPosition);
+	}
+
+	@Override
+	public int getGroupCount() {
+		return giftcard.getSize();
+	}
+
+	@Override
+	public long getGroupId(int groupPosition) {
+		return groupPosition;
+	}
+
+	@Override
+	public View getGroupView(int groupPosition, boolean isExpanded,
+			View convertView, ViewGroup parent) {
+		View v = convertView;
+		if (v == null) {
+			v = inflater.inflate(R.layout.giftcard_expand_row, parent, false);
+		}
+
+		// Notice Title Set
+		ImageView indicator = (ImageView) v
+				.findViewById(R.id.giftcard_expan_row_indicator);
+		TextView title = (TextView) v
+				.findViewById(R.id.giftcard_expan_row_title);
+
+		String used = " (사용)";
+		String titleTxt = giftcard.get(groupPosition).getUser_name()
+				+ "님이 선물하신 " + giftcard.get(groupPosition).getMenu();
+		if (giftcard.get(groupPosition).getUsedFlag() == 1)
+			titleTxt += used;
+		title.setText(titleTxt);
+
+		if (isExpanded)
+			indicator.setImageResource(R.drawable.depart_menu_expan_on);
+		else
+			indicator.setImageResource(R.drawable.depart_menu_expan_off);
+
+		return v;
+	}
+
+	@Override
+	public boolean hasStableIds() {
+		return true;
+	}
+
+	@Override
+	public boolean isChildSelectable(int groupPosition, int childPosition) {
+		return true;
+	}
+	
+	
+	
+	/************ Get Giftcard Image Progress Class with AsyncTask ************/
+
+	private class ManageStamps extends AsyncTask<String, Void, Bitmap> {
+		private ProgressDialog loadingDlg;
+
+		@Override
+		protected void onPreExecute() {
+			// dialog 띄우기
+			super.onPreExecute();
+			loadingDlg = ProgressDialog.show(context, "알림",
+					"잠시만 기다려 주세요", true);
+			loadingDlg.setCancelable(true);
+		}
+
+		@Override
+		protected Bitmap doInBackground(String... barcodeNum) {
+
+			// get barcode img and save at sd card
+			try {
+				// SD카드 Path 얻기
+				String sdPath = "" + Environment.getExternalStorageDirectory();
+				File file = new File(sdPath + "/hisbeans/" + barcodeNum[0]
+						+ ".bmp");
+				BufferedInputStream bis = null;
+
+				// 파일이 존재하면 사용하기
+				if (file.exists()) {
+					// 파일 스트림 열기
+					InputStream fis = new FileInputStream(file);
+
+					bis = new BufferedInputStream(fis, 512 * 1024);
+					giftcardImage = BitmapFactory.decodeStream(bis);
+					bis.close();
+				}
+				// 파일이 없으면 서버에서 받아와 저장하기
+				else {
+					// Populate the data to POST
+					MultiValueMap<String, String> formData = new LinkedMultiValueMap<String, String>();
+					formData.add("barcodeURL", barcodeNum[0]+".png");
+
+					// Create a new RestTemplate instance
+					RestTemplate restTemplate = new RestTemplate(true);
+					restTemplate.getMessageConverters().add(
+							new ByteArrayHttpMessageConverter());
+					ResponseEntity<byte[]> response = restTemplate
+							.postForEntity(GlobalVariables.getGiftcardImageURL,
+									formData, byte[].class);
+
+					// 성공적으로 정보를 불러오면 이미지 SD카드에 저장
+					if (response.getBody() != null) {
+						InputStream fileis = new ByteArrayInputStream(
+								response.getBody());
+
+						bis = new BufferedInputStream(fileis, 512 * 1024);
+						giftcardImage = BitmapFactory.decodeStream(bis);
+
+						GlobalMethods.saveImgAtSdcard(barcodeNum[0], giftcardImage);
+						bis.close();
+					}
+					// 파일 없으면  Barcode Image는 빈칸(null)으로 setting
+					else {
+						giftcardImage = null;
+					}
+				}
+			} catch (FileNotFoundException e) {
+				Log.e("FileNotFoundException error", e.toString());
+			} catch (MalformedURLException e) {
+				Log.e("MalformedURLException error", e.toString());
+			} catch (IOException e) {
+				Log.e("IOException error", e.toString());
+			}
+
+			return giftcardImage;
+		}
+
+		@Override
+		protected void onPostExecute(Bitmap barcode) {
+			// loading dialog 사라지게 하기
+			loadingDlg.dismiss();
+
+			// barcode setting
+			giftcardIv.setImageBitmap(barcode);
+
+			if (barcode == null) {
+				Toast.makeText(context, "네트워크 상태가 원할하지 않습니다.",
+						Toast.LENGTH_SHORT).show();
+			}
+		}
+
+		@Override
+		protected void onCancelled() {
+			// loading dialog 사라지게 하기
+			super.onCancelled();
+			loadingDlg.dismiss();
+		}
+	}
+
+}

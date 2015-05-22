@@ -25,3 +25,6 @@ proguard/
 
 # Log Files
 *.log
+
+# Setting File
+HisbeansApp/src/ghost/android/hbapp/common/GlobalVariables.java

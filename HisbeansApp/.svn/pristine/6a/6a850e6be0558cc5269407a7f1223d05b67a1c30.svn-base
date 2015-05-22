@@ -1,0 +1,231 @@
+package ghost.android.hbapp.giftcard;
+
+import java.sql.Date;
+import java.util.List;
+
+/**
+ * @author HyeonWook Kim
+ * @email khw0867@gmail.com
+ * @classname GiftCard.java
+ * @package ghost.android.hbapp.giftcard
+ * @date 2012. 7. 26.
+ * @purpose : 선물카드 Model Class
+ *
+ */
+
+public class GiftCardModel {
+	private List<GiftCardInfo> presentCards;
+
+
+	/* constructor */
+	public GiftCardModel() {
+		super();
+	}
+	public GiftCardModel(List<GiftCardInfo> presentCards) {
+		super();
+		this.presentCards = presentCards;
+	}
+
+	/* getter and setter */
+	public List<GiftCardInfo> getPresentCards() {
+		return presentCards;
+	}
+	public void setPresentCards(List<GiftCardInfo> presentCards) {
+		this.presentCards = presentCards;
+	}
+
+	/* public methods */
+	public int getSize(){
+		return presentCards.size();
+	}
+
+	public GiftCardInfo get(int i){
+		return presentCards.get(i);
+	}
+
+	/* inner class */
+	public static class GiftCardInfo{
+		private int giftcardSrl;
+
+		private String menu;
+		private String message;
+
+		private String senderId;
+		private String user_name;
+		private String nick_name;
+		private int member_srl;
+
+		private String email_address;
+		private String receiverPhoneNum;
+		private String barcodeNum;
+
+		private Date sendDate;
+		private Date useDate;
+		private int usedFlag;
+
+		//not used
+		private int module_srl; 
+		private int comment_count;
+		private int uploaded_count;
+		private String extra_vars;
+		private String ipaddress;
+		private int list_order;
+		private int update_order;
+
+
+		/*******  Constructor  ********/
+		public GiftCardInfo() {
+			super();
+		}
+		public GiftCardInfo(int giftcardSrl, String menu, String message,
+				String senderId, String user_name, String nick_name,
+				int member_srl, String email_address, String receiverPhoneNum,
+				String barcodeNum, Date sendDate, Date useDate, int usedFlag,
+				int module_srl, int comment_count, int uploaded_count,
+				String extra_vars, String ipaddress, int list_order,
+				int update_order) {
+			super();
+			this.giftcardSrl = giftcardSrl;
+			this.menu = menu;
+			this.message = message;
+			this.senderId = senderId;
+			this.user_name = user_name;
+			this.nick_name = nick_name;
+			this.member_srl = member_srl;
+			this.email_address = email_address;
+			this.receiverPhoneNum = receiverPhoneNum;
+			this.barcodeNum = barcodeNum;
+			this.sendDate = sendDate;
+			this.useDate = useDate;
+			this.usedFlag = usedFlag;
+			this.module_srl = module_srl;
+			this.comment_count = comment_count;
+			this.uploaded_count = uploaded_count;
+			this.extra_vars = extra_vars;
+			this.ipaddress = ipaddress;
+			this.list_order = list_order;
+			this.update_order = update_order;
+		}
+
+		public int getGiftcardSrl() {
+			return giftcardSrl;
+		}
+		public void setGiftcardSrl(int giftcardSrl) {
+			this.giftcardSrl = giftcardSrl;
+		}
+		public String getMenu() {
+			return menu;
+		}
+		public void setMenu(String menu) {
+			this.menu = menu;
+		}
+		public String getMessage() {
+			return message;
+		}
+		public void setMessage(String message) {
+			this.message = message;
+		}
+		public String getSenderId() {
+			return senderId;
+		}
+		public void setSenderId(String senderId) {
+			this.senderId = senderId;
+		}
+		public String getUser_name() {
+			return user_name;
+		}
+		public void setUser_name(String user_name) {
+			this.user_name = user_name;
+		}
+		public String getNick_name() {
+			return nick_name;
+		}
+		public void setNick_name(String nick_name) {
+			this.nick_name = nick_name;
+		}
+		public int getMember_srl() {
+			return member_srl;
+		}
+		public void setMember_srl(int member_srl) {
+			this.member_srl = member_srl;
+		}
+		public String getEmail_address() {
+			return email_address;
+		}
+		public void setEmail_address(String email_address) {
+			this.email_address = email_address;
+		}
+		public String getReceiverPhoneNum() {
+			return receiverPhoneNum;
+		}
+		public void setReceiverPhoneNum(String receiverPhoneNum) {
+			this.receiverPhoneNum = receiverPhoneNum;
+		}
+		public String getBarcodeNum() {
+			return barcodeNum;
+		}
+		public void setBarcodeNum(String barcodeNum) {
+			this.barcodeNum = barcodeNum;
+		}
+		public Date getSendDate() {
+			return sendDate;
+		}
+		public void setSendDate(Date sendDate) {
+			this.sendDate = sendDate;
+		}
+		public Date getUseDate() {
+			return useDate;
+		}
+		public void setUseDate(Date useDate) {
+			this.useDate = useDate;
+		}
+		public int getUsedFlag() {
+			return usedFlag;
+		}
+		public void setUsedFlag(int usedFlag) {
+			this.usedFlag = usedFlag;
+		}
+		public int getModule_srl() {
+			return module_srl;
+		}
+		public void setModule_srl(int module_srl) {
+			this.module_srl = module_srl;
+		}
+		public int getComment_count() {
+			return comment_count;
+		}
+		public void setComment_count(int comment_count) {
+			this.comment_count = comment_count;
+		}
+		public int getUploaded_count() {
+			return uploaded_count;
+		}
+		public void setUploaded_count(int uploaded_count) {
+			this.uploaded_count = uploaded_count;
+		}
+		public String getExtra_vars() {
+			return extra_vars;
+		}
+		public void setExtra_vars(String extra_vars) {
+			this.extra_vars = extra_vars;
+		}
+		public String getIpaddress() {
+			return ipaddress;
+		}
+		public void setIpaddress(String ipaddress) {
+			this.ipaddress = ipaddress;
+		}
+		public int getList_order() {
+			return list_order;
+		}
+		public void setList_order(int list_order) {
+			this.list_order = list_order;
+		}
+		public int getUpdate_order() {
+			return update_order;
+		}
+		public void setUpdate_order(int update_order) {
+			this.update_order = update_order;
+		}
+	}
+}
